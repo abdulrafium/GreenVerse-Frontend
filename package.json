@@ -1,0 +1,48 @@
+{
+  "name": "greenverse-ui",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.86.0",
+    "@vercel/analytics": "latest",
+    "axios": "^1.13.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "jiti": "latest",
+    "jspdf": "^3.0.4",
+    "jspdf-autotable": "^5.0.2",
+    "less": "latest",
+    "lucide-react": "^0.454.0",
+    "next": "16.0.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "latest",
+    "react-toastify": "^11.0.5",
+    "recharts": "^3.4.1",
+    "sass": "latest",
+    "sass-embedded": "latest",
+    "stylus": "latest",
+    "sugarss": "latest",
+    "terser": "latest",
+    "tsx": "latest",
+    "yaml": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "19.2.6",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.22",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5",
+    "vite": "^5.0.8"
+  }
+}

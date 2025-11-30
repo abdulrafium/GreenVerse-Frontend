@@ -1,0 +1,44 @@
+.footer {
+  background-color: var(--card);
+  border-top: 1px solid var(--border);
+  padding: 3rem 0 1rem;
+  margin-top: 3rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1rem;
+}
+
+.footer-section h4 {
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.footer-section a,
+.footer-section p {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--muted-foreground);
+  transition: color 0.2s;
+}
+
+.footer-section a:hover {
+  color: var(--primary);
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+  text-align: center;
+  color: var(--muted-foreground);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}

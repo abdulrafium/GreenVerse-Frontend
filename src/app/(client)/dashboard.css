@@ -1,0 +1,250 @@
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--background);
+}
+
+.dashboard-content {
+  margin-left: 0;
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  min-height: 100vh;
+  background-color: #FDFBF7;
+  width: 100%;
+  padding-top: 5rem; /* Space for mobile menu button */
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .dashboard-content {
+    margin-left: 256px;
+    padding: 2rem;
+    padding-top: 2rem;
+    width: calc(100% - 256px);
+  }
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dashboard-header h1 {
+  font-size: 1.5rem;
+  color: var(--foreground);
+}
+
+@media (min-width: 768px) {
+  .dashboard-header {
+    margin-bottom: 2rem;
+  }
+  
+  .dashboard-header h1 {
+    font-size: 2rem;
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 768px) {
+  table {
+    font-size: 1rem;
+  }
+}
+
+table th {
+  text-align: left;
+  padding: 0.75rem;
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+  font-weight: 600;
+  border: none;
+  font-size: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  table th {
+    padding: 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.875rem;
+}
+
+@media (min-width: 768px) {
+  table td {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+}
+
+table tr:hover {
+  background-color: var(--muted);
+}
+
+/* Table wrapper for horizontal scroll on mobile */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-wrapper table {
+  min-width: 600px;
+}
+
+/* Responsive button groups */
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Responsive forms */
+.form-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .form-grid.form-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Hide on mobile, show on desktop */
+.hidden-mobile {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .hidden-mobile {
+    display: block;
+  }
+}
+
+/* Show on mobile, hide on desktop */
+.show-mobile {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .show-mobile {
+    display: none;
+  }
+}
+
+/* Responsive cards */
+.card-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-grid.card-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Responsive text and buttons */
+.dashboard-header h1 {
+  font-size: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .dashboard-header h1 {
+    font-size: 2rem;
+  }
+}
+
+/* Button responsive styles */
+button, .button {
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+}
+
+@media (min-width: 768px) {
+  button, .button {
+    font-size: 1rem;
+    padding: 0.625rem 1.25rem;
+  }
+}
+
+/* Form input responsive styles */
+input, select, textarea {
+  font-size: 0.875rem !important;
+}
+
+@media (min-width: 768px) {
+  input, select, textarea {
+    font-size: 1rem !important;
+  }
+}
+
+/* Card responsive padding */
+.card, [class*="Card"] {
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .card, [class*="Card"] {
+    padding: 1.5rem;
+  }
+}
+
+/* Modal responsive */
+.modal-content {
+  padding: 1rem;
+  margin: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .modal-content {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+}
