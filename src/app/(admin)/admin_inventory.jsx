@@ -138,6 +138,47 @@ export default function AdminInventory() {
               </div>
             </div>
           )}
+            {/* Edit Price Modal */}
+            {editingProduct && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
+                <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
+                  <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-lg font-bold text-[#0F5132]">Edit Price for {editingProduct.name}</h2>
+                    <button onClick={() => setEditingProduct(null)} className="text-stone-400 hover:text-stone-600">
+                      <X size={20} />
+                    </button>
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-stone-700 mb-2">New Price (PKR)</label>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={newPrice}
+                      onChange={e => setNewPrice(e.target.value)}
+                      className="w-full border border-stone-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#3AA174]"
+                      disabled={updating}
+                    />
+                  </div>
+                  <div className="flex justify-end gap-2">
+                    <button
+                      onClick={() => setEditingProduct(null)}
+                      className="px-4 py-2 rounded bg-stone-200 text-stone-700 hover:bg-stone-300"
+                      disabled={updating}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleUpdatePrice}
+                      className="px-4 py-2 rounded bg-[#3AA174] text-white font-semibold hover:bg-[#0F5132]"
+                      disabled={updating || !newPrice}
+                    >
+                      {updating ? 'Updating...' : 'Update'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
         </Card>
       </main>
     </div>
