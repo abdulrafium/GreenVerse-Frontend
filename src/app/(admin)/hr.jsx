@@ -7,6 +7,7 @@ import { Loader2, Calendar, X, UserPlus, UserMinus } from 'lucide-react'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import "../(client)/dashboard.css"
+import api from '../../services/api'
 
 export default function HR() {
   const [stats, setStats] = useState(null)
@@ -126,12 +127,8 @@ export default function HR() {
 
   const fetchClusterEmployees = async (clusterId) => {
     try {
-      const token = localStorage.getItem('token')
-      const response = await fetch(`http://localhost:5000/api/employees/cluster/${clusterId}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
-      const data = await response.json()
-      setClusterEmployees(data.employees || [])
+      const response = await api.get(`/employees/cluster/${clusterId}`)
+      setClusterEmployees(response.data.employees || [])
     } catch (error) {
       console.error('Failed to fetch cluster employees:', error)
       setClusterEmployees([])
@@ -148,21 +145,7 @@ export default function HR() {
 
     try {
       setRemovingEmployee(true)
-      const token = localStorage.getItem('token')
-      
-      const response = await fetch(`http://localhost:5000/api/employees/${removeForm.employee_id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to remove employee')
-      }
-      
+      await api.delete(`/employees/${removeForm.employee_id}`)
       toast.success('Employee removed successfully!')
       setShowRemoveModal(false)
       setRemoveForm({ cluster_id: '', employee_id: '' })
@@ -170,7 +153,7 @@ export default function HR() {
       await fetchHRData()
     } catch (error) {
       console.error('Error removing employee:', error)
-      toast.error(error.message || 'Failed to remove employee')
+      toast.error(error.response?.data?.error || 'Failed to remove employee')
     } finally {
       setRemovingEmployee(false)
     }

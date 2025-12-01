@@ -6,6 +6,7 @@ import { Loader2, Save, User, Phone, MapPin } from 'lucide-react'
 import { toast, ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css"
 import "./dashboard.css"
+import api from '../../services/api'
 
 // Pakistan States/Provinces and their Districts
 const PAKISTAN_DATA = {

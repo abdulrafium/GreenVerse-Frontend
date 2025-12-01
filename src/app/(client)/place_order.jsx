@@ -7,6 +7,7 @@ import { Loader2, ShoppingCart, Plus, Minus, Trash2, Package } from 'lucide-reac
 import { toast, ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css"
 import "./dashboard.css"
+import api from '../../services/api'
 
 export default function PlaceOrder() {
   const navigate = useNavigate()

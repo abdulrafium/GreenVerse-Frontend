@@ -5,6 +5,7 @@ import StatCard from "../../components/StatCard"
 import Card from "../../components/Card"
 import { Loader2 } from 'lucide-react'
 import "../(client)/dashboard.css"
+import api from '../../services/api'
 
 export default function Sales() {
   const [stats, setStats] = useState(null)
@@ -20,28 +21,18 @@ export default function Sales() {
 
   const fetchSalesData = async () => {
     try {
-      const token = localStorage.getItem('token')
-      const headers = { 'Authorization': `Bearer ${token}` }
-
       // Fetch all data in parallel
       const [statsRes, trendRes, productsRes, categoriesRes] = await Promise.all([
-        fetch('http://localhost:5000/api/orders/sales/stats', { headers }),
-        fetch('http://localhost:5000/api/orders/sales/monthly-trend', { headers }),
-        fetch('http://localhost:5000/api/orders/sales/top-products', { headers }),
-        fetch('http://localhost:5000/api/orders/sales/by-category', { headers })
+        api.get('/orders/sales/stats'),
+        api.get('/orders/sales/monthly-trend'),
+        api.get('/orders/sales/top-products'),
+        api.get('/orders/sales/by-category')
       ])
 
-      const [statsData, trendData, productsData, categoriesData] = await Promise.all([
-        statsRes.json(),
-        trendRes.json(),
-        productsRes.json(),
-        categoriesRes.json()
-      ])
-
-      setStats(statsData.stats)
-      setTrendData(trendData.trendData)
-      setTopProducts(productsData.topProducts)
-      setCategories(categoriesData.categories)
+      setStats(statsRes.data.stats)
+      setTrendData(trendRes.data.trendData)
+      setTopProducts(productsRes.data.topProducts)
+      setCategories(categoriesRes.data.categories)
     } catch (error) {
       console.error('Failed to fetch sales data:', error)
     } finally {

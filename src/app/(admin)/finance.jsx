@@ -5,6 +5,7 @@ import StatCard from "../../components/StatCard"
 import Card from "../../components/Card"
 import { Loader2 } from 'lucide-react'
 import "../(client)/dashboard.css"
+import api from '../../services/api'
 
 export default function Finance() {
   const [stats, setStats] = useState(null)
@@ -20,24 +21,16 @@ export default function Finance() {
   const fetchFinanceData = async () => {
     try {
       setLoading(true)
-      const token = localStorage.getItem('token')
-      const headers = { 'Authorization': `Bearer ${token}` }
 
       const [statsRes, trendRes, expensesRes] = await Promise.all([
-        fetch('http://localhost:5000/api/finance/stats', { headers }),
-        fetch('http://localhost:5000/api/finance/revenue-trend', { headers }),
-        fetch('http://localhost:5000/api/finance/expenses', { headers })
+        api.get('/finance/stats'),
+        api.get('/finance/revenue-trend'),
+        api.get('/finance/expenses')
       ])
 
-      const [statsData, trendData, expensesData] = await Promise.all([
-        statsRes.json(),
-        trendRes.json(),
-        expensesRes.json()
-      ])
-
-      setStats(statsData.stats)
-      setTrendData(trendData.trendData)
-      setExpenseData(expensesData.expenses)
+      setStats(statsRes.data.stats)
+      setTrendData(trendRes.data.trendData)
+      setExpenseData(expensesRes.data.expenses)
     } catch (error) {
       console.error('Failed to fetch finance data:', error)
     } finally {

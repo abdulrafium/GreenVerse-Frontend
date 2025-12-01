@@ -5,6 +5,7 @@ import Chart from "../../components/Chart"
 import Card from "../../components/Card"
 import { Loader2 } from 'lucide-react'
 import "../(client)/dashboard.css"
+import api from '../../services/api'
 
 export default function AdminImpact() {
   const [stats, setStats] = useState(null)
@@ -19,21 +20,14 @@ export default function AdminImpact() {
   const fetchImpactData = async () => {
     try {
       setLoading(true)
-      const token = localStorage.getItem('token')
-      const headers = { 'Authorization': `Bearer ${token}` }
 
       const [statsRes, trendRes] = await Promise.all([
-        fetch('http://localhost:5000/api/impact/stats', { headers }),
-        fetch('http://localhost:5000/api/impact/trend', { headers })
+        api.get('/impact/stats'),
+        api.get('/impact/trend')
       ])
 
-      const [statsData, trendData] = await Promise.all([
-        statsRes.json(),
-        trendRes.json()
-      ])
-
-      setStats(statsData.stats)
-      setTrendData(trendData.trendData)
+      setStats(statsRes.data.stats)
+      setTrendData(trendRes.data.trendData)
     } catch (error) {
       console.error('Failed to fetch impact data:', error)
     } finally {
