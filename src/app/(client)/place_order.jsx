@@ -42,9 +42,8 @@ export default function PlaceOrder() {
   const fetchProducts = async () => {
     try {
       setLoading(true)
-      const response = await fetch('http://localhost:5000/api/products')
-      const data = await response.json()
-      setProducts(data.products || [])
+      const response = await api.get('/products')
+      setProducts(response.data.products || [])
     } catch (error) {
       console.error('Error fetching products:', error)
       toast.error('Failed to load products')
@@ -126,13 +125,10 @@ export default function PlaceOrder() {
 
     try {
       setPlacing(true)
-      const token = localStorage.getItem('token')
 
       // Check profile completion first
-      const profileCheck = await fetch('http://localhost:5000/api/profile/check', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
-      const profileData = await profileCheck.json()
+      const profileCheck = await api.get('/profile/check')
+      const profileData = profileCheck.data
 
       if (!profileData.isComplete) {
         toast.error('Please complete your profile before placing an order', {
@@ -148,33 +144,21 @@ export default function PlaceOrder() {
         quantity: item.quantity
       }))
 
-      const response = await fetch('http://localhost:5000/api/orders/cart', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ items })
-      })
+      const response = await api.post('/orders/cart', { items })
+      const data = response.data
 
-      const data = await response.json()
-
-      if (response.ok) {
-        toast.success('Order placed successfully! 🎉')
-        setCart([])
-        setQuantities({})
-        setTimeout(() => navigate('/client/orders'), 2000)
-      } else {
-        if (data.profileIncomplete) {
-          toast.error('Please complete your profile first')
-          setTimeout(() => navigate('/client/profile'), 2000)
-        } else {
-          toast.error(data.error || 'Failed to place order')
-        }
-      }
+      toast.success('Order placed successfully! 🎉')
+      setCart([])
+      setQuantities({})
+      setTimeout(() => navigate('/client/orders'), 2000)
     } catch (error) {
+      if (error.response?.data?.profileIncomplete) {
+        toast.error('Please complete your profile first')
+        setTimeout(() => navigate('/client/profile'), 2000)
+      } else {
+        toast.error(error.response?.data?.error || 'Failed to place order')
+      }
       console.error('Place order error:', error)
-      toast.error('Failed to place order')
     } finally {
       setPlacing(false)
     }

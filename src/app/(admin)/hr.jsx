@@ -43,12 +43,8 @@ export default function HR() {
 
   const fetchClusters = async () => {
     try {
-      const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:5000/api/employees/hr/clusters', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
-      const data = await response.json()
-      setClusters(data.clusters || [])
+      const response = await api.get('/employees/hr/clusters')
+      setClusters(response.data.clusters || [])
     } catch (error) {
       console.error('Failed to fetch clusters:', error)
     }
@@ -57,28 +53,21 @@ export default function HR() {
   const fetchHRData = async () => {
     try {
       setLoading(true)
-      const token = localStorage.getItem('token')
-      const headers = { 'Authorization': `Bearer ${token}` }
 
       // Build query params
-      const statsParams = new URLSearchParams({ date: selectedDate })
-      const empParams = new URLSearchParams({ date: selectedDate })
+      const statsParams = { date: selectedDate }
+      const empParams = { date: selectedDate }
       if (selectedCluster) {
-        empParams.append('cluster_id', selectedCluster)
+        empParams.cluster_id = selectedCluster
       }
 
       const [statsRes, empRes] = await Promise.all([
-        fetch(`http://localhost:5000/api/employees/hr/stats?${statsParams}`, { headers }),
-        fetch(`http://localhost:5000/api/employees/hr/employees?${empParams}`, { headers })
+        api.get('/employees/hr/stats', { params: statsParams }),
+        api.get('/employees/hr/employees', { params: empParams })
       ])
 
-      const [statsData, empData] = await Promise.all([
-        statsRes.json(),
-        empRes.json()
-      ])
-
-      setStats(statsData.stats)
-      setEmployees(empData.employees || [])
+      setStats(statsRes.data.stats)
+      setEmployees(empRes.data.employees || [])
     } catch (error) {
       console.error('Failed to fetch HR data:', error)
     } finally {
@@ -96,30 +85,14 @@ export default function HR() {
 
     try {
       setAddingEmployee(true)
-      const token = localStorage.getItem('token')
-      
-      const response = await fetch('http://localhost:5000/api/employees', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(employeeForm)
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to add employee')
-      }
-      
+      await api.post('/employees', employeeForm)
       toast.success('Employee added successfully!')
       setShowAddModal(false)
       setEmployeeForm({ name: '', city: '', role: '', cluster_id: '' })
       await fetchHRData()
     } catch (error) {
       console.error('Error adding employee:', error)
-      toast.error(error.message || 'Failed to add employee')
+      toast.error(error.response?.data?.error || 'Failed to add employee')
     } finally {
       setAddingEmployee(false)
     }

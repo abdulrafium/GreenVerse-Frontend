@@ -98,7 +98,6 @@ export default function Profile() {
   const fetchProfile = async () => {
     try {
       setLoading(true)
-      const token = localStorage.getItem('token')
       const userStr = localStorage.getItem('user')
       
       if (userStr) {
@@ -106,13 +105,9 @@ export default function Profile() {
         setUser({ name: userData.name, email: userData.email })
       }
 
-      const response = await fetch('http://localhost:5000/api/profile', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
-
-      const data = await response.json()
-      if (data.profile) {
-        setProfile(data.profile)
+      const response = await api.get('/profile')
+      if (response.data.profile) {
+        setProfile(response.data.profile)
       }
     } catch (error) {
       console.error('Error fetching profile:', error)
@@ -133,28 +128,14 @@ export default function Profile() {
 
     try {
       setSaving(true)
-      const token = localStorage.getItem('token')
 
-      const response = await fetch('http://localhost:5000/api/profile', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(profile)
-      })
+      const response = await api.post('/profile', profile)
 
-      const data = await response.json()
-
-      if (response.ok) {
-        toast.success('Profile saved successfully!')
-        setProfile(data.profile)
-      } else {
-        toast.error(data.error || 'Failed to save profile')
-      }
+      toast.success('Profile saved successfully!')
+      setProfile(response.data.profile)
     } catch (error) {
       console.error('Save profile error:', error)
-      toast.error('Failed to save profile')
+      toast.error(error.response?.data?.error || 'Failed to save profile')
     } finally {
       setSaving(false)
     }
